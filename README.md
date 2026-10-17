@@ -1,7 +1,15 @@
-# Hogwarts Study Diary
+# Hogwarts Study Diary — Android Tablet
 
-A tablet-first Android diary inspired by a magical British boarding school. Includes the 23 notebook templates, handwriting / typing modes, offline persistence, house points, owl post, and character notes.
+An original, unofficial fantasy-school study diary app for Android tablets. 23 PDF-inspired editable page types, handwriting and typing input, owl post, house point transaction history, virtual classmates, and offline local storage.
 
-See the Android source package and GitHub Actions APK build workflow in this repository.
+## APK
+Open **Actions → Android APK → latest successful run → HogwartsStudyDiary-android-debug**, download the ZIP artifact and install `app-debug.apk`. Android may ask permission to install apps from your downloads app.
 
-Unofficial fan project for personal use.
+## Technology
+Java WebView shell, bundled HTML/CSS/JavaScript, local SQLite snapshot, JSON export/import, offline by default. No cloud connection or external services required. Data is device local; export a backup before uninstalling.
+
+## Design
+The source PDF is treated as an editorial/visual reference. Forms are rendered as interactive controls; handwritten examples from the scanned PDF are not imported. The visual design uses parchment, dark wood, antique gold, and a navy ribbon. This project is not affiliated with Warner Bros. or the Harry Potter franchise.
+
+## Implementation status
+This is an experimental debug build. Handwriting needs real Samsung S Pen testing, and the script's simulated letters and notes are not live AI or real user messages.
