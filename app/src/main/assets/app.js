@@ -4,7 +4,7 @@
  */
 const $=id=>document.getElementById(id);
 const safe=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const uid=()=>crypto?.randomUUID?.()||'d'+Date.now().toString(36)+Math.random().toString(36).slice(2);
+const uid=()=>globalThis.crypto?.randomUUID?.()||'d'+Date.now().toString(36)+Math.random().toString(36).slice(2);
 const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
 const now=()=>new Date().toISOString();
 const PARTS=[
@@ -58,7 +58,7 @@ function makePage(kind,date=today(),title=TITLE[kind]){const p={id:uid(),kind,ti
 function findPage(){return state.pages.find(p=>p.id===activeId)}
 function openKind(kind){let p=state.pages.find(x=>x.kind===kind&&(kind==='daily'?x.date===today():true));if(!p)p=makePage(kind);route('page',p.id)}
 function route(next,id=null){history.push({screen,id:activeId});screen=next;activeId=id;undo=[];redo=[];render();$('main').scrollTop=0}
-window.appGoBack=()=>{const dlg=document.querySelector('dialog[open]');if(dlg){dlg.close();return true}if(!$('#side').classList.contains('collapsed')&&innerWidth<850){$('#side').classList.add('collapsed');return true}if(history.length){const old=history.pop();screen=old.screen;activeId=old.id;render();return true}if(screen!=='desk'){screen='desk';activeId=null;render();return true}notify('You are already at your study desk.');return true};
+window.appGoBack=()=>{const dlg=document.querySelector('dialog[open]');if(dlg){dlg.close();return true}if(!$('side').classList.contains('collapsed')&&innerWidth<850){$('side').classList.add('collapsed');return true}if(history.length){const old=history.pop();screen=old.screen;activeId=old.id;render();return true}if(screen!=='desk'){screen='desk';activeId=null;render();return true}notify('You are already at your study desk.');return true};
 function renderSidebar(){const needle=$('find').value.toLowerCase();let html='<button data-view="desk" class="'+(screen==='desk'?'active':'')+'"><span class="nicon">⌂</span>Student’s Desk</button><button data-view="index"><span class="nicon">☷</span>Full Index</button>';for(const group of ['Book','Planner','Study','Life']){const found=PARTS.filter(p=>p[2]===group&&p[1].toLowerCase().includes(needle));if(!found.length)continue;html+='<h4>'+group.toUpperCase()+'</h4>'+found.map(p=>'<button data-kind="'+p[0]+'" class="'+(findPage()?.kind===p[0]?'active':'')+'"><span class="nicon">'+p[3]+'</span>'+safe(p[1])+'</button>').join('')}html+='<h4>HOGWARTS</h4><button data-view="points"><span class="nicon">⌛</span>House Points</button><button data-view="owl"><span class="nicon">✉</span>Owl Post</button><button data-view="professors"><span class="nicon">✒</span>Professor’s Notes</button>';$('navItems').innerHTML=html;$('houseCaption').textContent=state.profile.name+' · '+state.profile.house}
 function top(label){return '<div class="pathbar"><span>Elena Ainsworth’s Study Diary</span><b> / </b><strong>'+safe(label)+'</strong><span class="spacer"></span><button data-new-page>+ New Page</button><small id="status">'+(dirty?'Saving…':'Saved on device')+'</small></div>'}
 function baseSheet(title,content,extra=''){return '<section class="paper"><div class="pagehead"><div class="ribbon"><h1>'+safe(title)+'</h1></div><small>SMALL STEPS · BRIGHTER TOMORROWS</small></div><div class="paperdecor">✦</div><div class="template-body">'+content+'</div>'+extra+'</section>'}
@@ -109,7 +109,7 @@ function handleAction(e){const b=e.target.closest('button');if(!b)return;
  if(b.dataset.pen){penTool=b.dataset.pen;render();return}
  if(b.dataset.undo!==undefined||b.dataset.redo!==undefined){const p=findPage(),from=b.dataset.undo!==undefined?undo:redo,to=b.dataset.undo!==undefined?redo:undo;if(p&&from.length){to.push(JSON.stringify(p.strokes));p.strokes=JSON.parse(from.pop());commit();redrawInk()}return}
  if(b.dataset.friend!==undefined){const p=findPage();if(!p)return;if(!state.settings.friends){notify('Enable friends’ notes in Settings first.');return}const name=Object.keys(INK_PERSONAS)[Math.floor(Math.random()*5)],f=INK_PERSONAS[name];p.friend={name,className:f.cls,text:f.messages[Math.floor(Math.random()*f.messages.length)]};commit();render();return}
- if(b.dataset.focus!==undefined){$('#side').classList.toggle('collapsed');return}
+ if(b.dataset.focus!==undefined){$('side').classList.toggle('collapsed');return}
  if(b.dataset.session!==undefined){const p=findPage();if(!p)return;const subject=prompt('Study subject','Arithmancy'),minutes=Number(prompt('Focused minutes','30'));if(!subject||!Number.isFinite(minutes)||minutes<=0||minutes>1000)return;state.sessions.push({id:uid(),pageId:p.id,subject,start:'—',end:'—',minutes:Math.round(minutes)});commit();render();return}
 }
 function handleChange(e){const x=e.target,p=findPage();if(x.dataset.taskCheck){taskDone(x.dataset.taskCheck,x.checked);return}
@@ -120,22 +120,22 @@ function handleInput(e){const x=e.target,p=findPage();if(x.dataset.field&&p){p.f
 async function exportBackup(){window.flush();const content=JSON.stringify({format:'HogwartsStudyDiaryBackup',exportedAt:now(),data:state},null,2);if(window.Android?.exportJson)return window.Android.exportJson(content);const a=document.createElement('a'),url=URL.createObjectURL(new Blob([content],{type:'application/json'}));a.href=url;a.download='Elena_Diary_Backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000)}
 function importBackup(s){let obj=JSON.parse(s);if(obj.format!=='HogwartsStudyDiaryBackup'||obj.data?.version!==2||!Array.isArray(obj.data.pages)||!Array.isArray(obj.data.ledger))throw Error('Invalid or incompatible backup');if(!confirm('Replace this device’s notebook with the backup? Export the current one first.'))return;state=obj.data;history=[];screen='desk';activeId=null;commit();render();notify('Your notebook has been restored.')}
 window.receiveNativeImport=b64=>{try{const bytes=Uint8Array.from(atob(b64),c=>c.charCodeAt(0));importBackup(new TextDecoder().decode(bytes))}catch(e){notify(e.message)}};
-function configure(){document.addEventListener('click',e=>{const nav=e.target.closest('#navItems button');if(nav&&innerWidth<620)$('#side').classList.add('collapsed');handleAction(e)});
+function configure(){document.addEventListener('click',e=>{const nav=e.target.closest('#navItems button');if(nav&&innerWidth<620)$('side').classList.add('collapsed');handleAction(e)});
 $('workspace').addEventListener('change',handleChange);$('workspace').addEventListener('input',handleInput);
-$('menuBtn').onclick=()=>$('#side').classList.toggle('collapsed');$('closeSide').onclick=()=>$('#side').classList.add('collapsed');
+$('menuBtn').onclick=()=>$('side').classList.toggle('collapsed');$('closeSide').onclick=()=>$('side').classList.add('collapsed');
 $('find').oninput=renderSidebar;$('pointsBtn').onclick=()=>route('points');$('mailBtn').onclick=()=>route('owl');$('settingsBtn').onclick=showSettings;$('backupShortcut').onclick=exportBackup;
 $('taskForm').onsubmit=e=>{e.preventDefault();const title=$('taskTitle').value.trim();if(!title)return;state.tasks.push({id:uid(),title,subject:$('taskSubject').value,difficulty:Number($('taskDifficulty').value),important:$('taskImportant').checked,house:state.profile.house,done:false,pageId:$('taskModal').dataset.page,date:today()});$('taskModal').close();commit();render()};
-$('cancelTask').onclick=()=>$('#taskModal').close();
-$('pageKind').onchange=()=>$('#pageTitle').value=TITLE[$('pageKind').value];
+$('cancelTask').onclick=()=>$('taskModal').close();
+$('pageKind').onchange=()=>$('pageTitle').value=TITLE[$('pageKind').value];
 $('pageForm').onsubmit=e=>{e.preventDefault();const p=makePage($('pageKind').value,$('pageDate').value,$('pageTitle').value);$('pageModal').close();route('page',p.id)};
-$('cancelPage').onclick=()=>$('#pageModal').close();
-$('savePrefs').onclick=()=>{state.profile.name=$('studentName').value.trim()||'Student';state.profile.house=$('houseSelect').value;state.settings.mode=$('simMode').value;state.settings.friends=$('friendsAllowed').checked;state.settings.reduced=$('reducedMotion').checked;$('#settingsModal').close();commit();render()};
-$('cancelPrefs').onclick=()=>$('#settingsModal').close();$('exportBtn').onclick=exportBackup;$('importBtn').onclick=()=>window.Android?.importJson?window.Android.importJson():$('#fileInput').click();
+$('cancelPage').onclick=()=>$('pageModal').close();
+$('savePrefs').onclick=()=>{state.profile.name=$('studentName').value.trim()||'Student';state.profile.house=$('houseSelect').value;state.settings.mode=$('simMode').value;state.settings.friends=$('friendsAllowed').checked;state.settings.reduced=$('reducedMotion').checked;$('settingsModal').close();commit();render()};
+$('cancelPrefs').onclick=()=>$('settingsModal').close();$('exportBtn').onclick=exportBackup;$('importBtn').onclick=()=>window.Android?.importJson?window.Android.importJson():$('fileInput').click();
 $('fileInput').onchange=async e=>{try{const f=e.target.files?.[0];if(f)importBackup(await f.text())}catch(err){notify(err.message)}e.target.value=''};
 document.addEventListener('visibilitychange',()=>{if(document.hidden)window.flush()});window.addEventListener('pagehide',window.flush);
 window.addEventListener('resize',()=>{if(screen==='page')redrawInk()});
 window.addEventListener('keydown',e=>{if(e.key==='Escape'&&!document.querySelector('dialog[open]'))window.appGoBack();if((e.metaKey||e.ctrlKey)&&e.key==='s'){e.preventDefault();commit();notify('Saved on this device.')}});
 }
 function showSettings(){$('studentName').value=state.profile.name;$('houseSelect').value=state.profile.house;$('simMode').value=state.settings.mode;$('friendsAllowed').checked=state.settings.friends;$('reducedMotion').checked=state.settings.reduced;dialogOpen('settingsModal')}
-function boot(){state=getState();configure();if(innerWidth<940)$('#side').classList.add('collapsed');render();commit()}
+function boot(){state=getState();configure();if(innerWidth<940)$('side').classList.add('collapsed');render();commit()}
 boot();
