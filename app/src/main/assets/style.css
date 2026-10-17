@@ -13,3 +13,9 @@ body[data-scene="common"] .ambient{background-image:linear-gradient(90deg,#11170
 .focus-page #side{margin-left:-226px}.focus-page .paper{min-height:calc(100dvh - 115px)}
 #timerDisplay{text-align:center;font-size:42px;letter-spacing:2px;font-variant-numeric:tabular-nums;background:#f9ecd0;border:2px solid #ae9569;padding:11px}
 @media(min-width:1024px){#workspace{padding:12px 10px 26px}.paper,.toolbar{max-width:1600px}.paper{padding:13px 16px 26px}}
+
+/* Nineteen original illustrated image assets, separate from interactive form controls */
+.hero{background-image:linear-gradient(0deg,#151f1bae,#1c302257),url('img/book_cover.webp');background-position:center;background-size:cover}
+.crest-large{width:70px;height:82px;object-fit:contain;margin:0 auto 3px;display:block;filter:drop-shadow(0 2px 3px #443a2955)}
+.glass{min-height:225px}.glass .icon{font-size:40px;line-height:1.1;margin:3px 0}
+.owl-post-icon{width:92px;height:92px;object-fit:contain;float:right;margin:-2px -4px 8px 8px}
