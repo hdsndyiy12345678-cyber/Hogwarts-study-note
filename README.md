@@ -13,3 +13,6 @@ The source PDF is treated as an editorial/visual reference. Forms are rendered a
 
 ## Implementation status
 This is an experimental debug build. Handwriting needs real Samsung S Pen testing, and the script's simulated letters and notes are not live AI or real user messages.
+
+## v0.3 changes
+Daily priorities are now distinct from other tasks (maximum 3); focus timer logs measured minutes without awarding house points; the full-page writing mode enlarges the central paper. The separate image-rich source bundle contains 19 approved visual assets. GitHub APK uses SVG fallbacks until those binaries are uploaded to `app/src/main/assets/img/`.
