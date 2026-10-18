@@ -1,18 +1,13 @@
-# Hogwarts Study Diary — Responsive Tablet Edition v1.0
+# Hogwarts Study Diary · Notebook v1.2.0
 
-An unofficial personal fantasy-academic study notebook for Android tablets. Unlike earlier editions, this is a **responsive interface** inspired by approved mockups, not those mockup screenshots pasted into the UI. Portrait/landscape and 4:3/16:10 display sizes reflow the same interactive components.
+Tablet-first offline Hogwarts-inspired study notebook, designed as a real interactive UI rather than a static image screenshot.
 
-## Features
-- 23 original notebook categories, date-scoped daily / weekly / monthly pages
-- Tablet-responsive navy-gold parchment layout, separate icon/texture/paper illustrations, and 8 original stationery preview thumbnails
-- S Pen strokes on a per-page canvas; finger input disabled by default and toggleable from toolbar and settings
-- Ink colors, pen width, erase strokes, undo and redo
-- SELECT mode to use checkboxes/fields. Done tasks award +5 points, reversal removes those points in the same ledger
-- House-points display, local simulated Owl Post, study-time log, offline SQLite storage, JSON backup and restore
-- Android back returns to index instead of closing the application
+- 23 blank study and life templates, daily/weekly/monthly dates
+- S Pen handwriting, selection mode, finger writing ON/OFF, undo/redo/erase
+- Parchment grain, gold borders, notebook index, illustrated stationery thumbnails
+- Point ledger, offline SQLite state, JSON export/import
+- Landscape Android tablet layouts (16:10 and 4:3)
 
-## Build
-Open **Actions → Android APK** and download the newest successful `HogwartsStudyDiary-android-debug` artifact. Install app-debug.apk. Debug APKs use a GitHub Actions signing certificate and may be incompatible with prior manually re-signed versions: back up data before replacing them.
+Install **app-debug.apk** from the latest Android APK workflow artifact. The app identifier is `com.elena.hogwartsdiary.notebook12` to avoid an update-signature conflict with prior experimental releases. Back up your previous version before migrating; the new app stores data separately.
 
-## Note
-This is a work-in-progress, device S Pen calibration needs on-device review; built-in Owl Post is fictional local content, not a live messaging service. No official affiliation with the Harry Potter copyright owners.
+Only the approved art assets already uploaded to the repository are bundled in the GitHub-built APK. The editable source ZIP generated in the ChatGPT conversation also contains a larger art collection for later expansion.
