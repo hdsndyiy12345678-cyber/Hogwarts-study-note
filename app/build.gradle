@@ -1,8 +1,29 @@
-plugins { id 'com.android.application' }
+plugins {
+    id 'com.android.application'
+}
+
 android {
     namespace 'com.elena.hogwartsdiary'
     compileSdk 35
-    defaultConfig { applicationId 'com.elena.hogwartsdiary.rebuilt'; minSdk 26; targetSdk 35; versionCode 12; versionName '1.0.0' }
-    buildTypes { release { minifyEnabled false } }
-    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+
+    defaultConfig {
+        applicationId 'com.elena.hogwartsdiary.rebuilt11'
+        minSdk 26
+        targetSdk 35
+        versionCode 13
+        versionName '1.1.0'
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    packaging {
+        resources { excludes += ['META-INF/DEPENDENCIES','META-INF/LICENSE'] }
+    }
 }

@@ -12,3 +12,22 @@
 .app{grid-template-rows:minmax(0,1fr)}
 .sidebar{height:100%;overflow:hidden}
 .paper{background-image:linear-gradient(110deg,#fff9ebec,#f9ecd4e8 80%,#f0dfbfe6),url('img/ui_papergrain.webp');background-size:auto,300px 300px;background-blend-mode:normal,multiply}
+
+/* v1.1 — responsive tablet controls and improved parchment work area */
+.app.focus-mode{grid-template-columns:0 minmax(0,1fr)}
+.app.focus-mode .sidebar{visibility:hidden;overflow:hidden}
+.app.focus-mode .paper-viewport{padding-left:14px;padding-right:14px}
+.date-nav{margin-left:auto;display:flex;align-items:center;gap:3px;min-width:0;border:1px solid #aa793a;background:#261611;color:#f1d5a4;padding:3px;white-space:nowrap}
+.date-nav button{padding:5px 7px;border:0;background:#3c2516;color:#f1d5a4;min-width:26px;min-height:30px}
+.date-nav span{font-size:11px;text-align:center;max-width:158px;overflow:hidden;text-overflow:ellipsis}
+.date-nav input[type=date]{max-width:26px;min-width:26px;width:26px;color-scheme:dark;padding:3px 0;border:0;background:#3c2516;color:#e4c68e;height:30px;cursor:pointer}
+.date-nav button:focus-visible{outline:2px solid #edc27e}
+.timer-display{font-variant-numeric:tabular-nums;color:#7b342c;font-weight:bold;min-width:66px;text-align:center}
+.form-panel{background-color:#fff9ec36}
+.sky-ornament{border-bottom:1px solid #d2aa71;box-shadow:0 2px 6px #9e704e45}
+.sidebar .identity{background-image:linear-gradient(180deg,#671920dd,#2b0b13d9),url('img/ui_side_ribbon.webp');background-size:cover}
+#paper .title-ribbon{box-shadow:0 0 0 1px #dec18c,inset 0 0 0 1px #4d6d85,0 3px 8px #563a238a}
+#paper .paper-footer:after{content:' ✧';color:#a67a37}
+@media(max-width:1220px){.date-nav #todayLabel{max-width:100px;font-size:10px}.date-nav #dateToday{display:none}.top-tabs button{padding:5px 7px}}
+@media(max-width:900px){.date-nav #todayLabel{display:none}.date-nav button{min-width:26px}.topnav{gap:3px}.top-tabs button{font-size:10px}}
+@media(max-width:650px){.app:not(.focus-mode){grid-template-columns:56px minmax(0,1fr)}.inkbar{bottom:5px}.form-meta{gap:3px}.paper-viewport{padding-bottom:95px}}
