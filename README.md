@@ -1,18 +1,18 @@
-# Hogwarts Study Diary — Android Tablet
+# Hogwarts Study Diary — Responsive Tablet Edition v1.0
 
-An original, unofficial fantasy-school study diary app for Android tablets. 23 PDF-inspired editable page types, handwriting and typing input, owl post, house point transaction history, virtual classmates, and offline local storage.
+An unofficial personal fantasy-academic study notebook for Android tablets. Unlike earlier editions, this is a **responsive interface** inspired by approved mockups, not those mockup screenshots pasted into the UI. Portrait/landscape and 4:3/16:10 display sizes reflow the same interactive components.
 
-## APK
-Open **Actions → Android APK → latest successful run → HogwartsStudyDiary-android-debug**, download the ZIP artifact and install `app-debug.apk`. Android may ask permission to install apps from your downloads app.
+## Features
+- 23 original notebook categories, date-scoped daily / weekly / monthly pages
+- Tablet-responsive navy-gold parchment layout, separate icon/texture/paper illustrations, and 8 original stationery preview thumbnails
+- S Pen strokes on a per-page canvas; finger input disabled by default and toggleable from toolbar and settings
+- Ink colors, pen width, erase strokes, undo and redo
+- SELECT mode to use checkboxes/fields. Done tasks award +5 points, reversal removes those points in the same ledger
+- House-points display, local simulated Owl Post, study-time log, offline SQLite storage, JSON backup and restore
+- Android back returns to index instead of closing the application
 
-## Technology
-Java WebView shell, bundled HTML/CSS/JavaScript, local SQLite snapshot, JSON export/import, offline by default. No cloud connection or external services required. Data is device local; export a backup before uninstalling.
+## Build
+Open **Actions → Android APK** and download the newest successful `HogwartsStudyDiary-android-debug` artifact. Install app-debug.apk. Debug APKs use a GitHub Actions signing certificate and may be incompatible with prior manually re-signed versions: back up data before replacing them.
 
-## Design
-The source PDF is treated as an editorial/visual reference. Forms are rendered as interactive controls; handwritten examples from the scanned PDF are not imported. The visual design uses parchment, dark wood, antique gold, and a navy ribbon. This project is not affiliated with Warner Bros. or the Harry Potter franchise.
-
-## Implementation status
-This is an experimental debug build. Handwriting needs real Samsung S Pen testing, and the script's simulated letters and notes are not live AI or real user messages.
-
-## v0.3 changes
-Daily priorities are now distinct from other tasks (maximum 3); focus timer logs measured minutes without awarding house points; the full-page writing mode enlarges the central paper. 19 optimized assets from the approved designs are now bundled directly in the APK under `app/src/main/assets/img/`, including day/night desk, library, common room, dormitory, Owl Post, crests and hourglass.
+## Note
+This is a work-in-progress, device S Pen calibration needs on-device review; built-in Owl Post is fictional local content, not a live messaging service. No official affiliation with the Harry Potter copyright owners.
